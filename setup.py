@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 import os
 
 # 버전 정보 읽기
-version = "0.2.0"
+version = "1.0.1"
 version_file = os.path.join(os.path.dirname(__file__), "src", "state_manifold_engine", "__init__.py")
 if os.path.exists(version_file):
     with open(version_file, "r", encoding="utf-8") as f:

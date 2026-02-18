@@ -7,6 +7,9 @@
 
 ---
 
+> 참고: 이 문서는 **v0.2.0에 대한 PHAM 서명 완료 기록**입니다.  
+> v1.0.0 이후 변경분(예: `l0_l1_interface.py`, README/버전 정렬, API 보강 등)은 **별도의 PHAM 서명이 필요**하며, 현재는 `PHAM_SIGNATURE_v1.0.1_PENDING.md`에 **PENDING**으로 기록되어 있습니다.
+
 ## 🔐 서명된 파일
 
 ### 핵심 구현 파일

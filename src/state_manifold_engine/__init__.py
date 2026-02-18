@@ -10,7 +10,7 @@ StateManifoldEngine - 메타 상태 공간 엔진
 - 값이 공간 안으로 들어가서 혼돈/발산/수렴하지 않고 출력됨
 
 Author: GNJz (Qquarts)
-Version: 0.2.0
+Version: 1.0.1
 PHAM Signed: 2026-02-04
 """
 
@@ -23,5 +23,5 @@ __all__ = [
     "FlowResult",
 ]
 
-__version__ = "0.2.0"
+__version__ = "1.0.1"
 

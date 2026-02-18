@@ -86,7 +86,8 @@ class StateManifoldEngine:
         self,
         value: Any,
         start: str,  # ConditionSignature
-        goal: str    # ConditionSignature
+        goal: str,   # ConditionSignature
+        manifold: Optional[StateManifold] = None,
     ) -> Optional[FlowResult]:
         """값이 상태 공간을 통과
         
@@ -97,35 +98,44 @@ class StateManifoldEngine:
             value: 공간을 통과할 값
             start: 시작 조건 서명
             goal: 목표 조건 서명
+            manifold: 명시적으로 사용할 StateManifold (선택).
+                     제공하지 않으면 build_state_space()로 구축된 내부 manifold를 사용.
         
         Returns:
             흐름 결과 (형태 보존, 안정적 출력)
         """
-        if not self.manifold:
-            raise ValueError("상태 공간이 구축되지 않았습니다. build_state_space()를 먼저 호출하세요.")
+        previous = self.manifold
+        if manifold is not None:
+            self.manifold = manifold
+
+        try:
+            if not self.manifold:
+                raise ValueError("상태 공간이 구축되지 않았습니다. build_state_space()를 먼저 호출하세요.")
         
-        # 통합 위험 지형 기반으로 경로 찾기
-        path = self._find_flow_path(start, goal)
+            # 통합 위험 지형 기반으로 경로 찾기
+            path = self._find_flow_path(start, goal)
         
-        if not path:
-            return None
+            if not path:
+                return None
         
-        # 흐름 에너지 계산 (통합 위험도 기반)
-        flow_energy = self._calculate_flow_energy(path)
+            # 흐름 에너지 계산 (통합 위험도 기반)
+            flow_energy = self._calculate_flow_energy(path)
         
-        # 형태 보존도 계산
-        form_preservation = self._calculate_form_preservation(path, value)
+            # 형태 보존도 계산
+            form_preservation = self._calculate_form_preservation(path, value)
         
-        # 안정성 계산
-        stability = self._calculate_stability(path)
+            # 안정성 계산
+            stability = self._calculate_stability(path)
         
-        return FlowResult(
-            value=value,
-            path=path,
-            flow_energy=flow_energy,
-            form_preservation=form_preservation,
-            stability=stability
-        )
+            return FlowResult(
+                value=value,
+                path=path,
+                flow_energy=flow_energy,
+                form_preservation=form_preservation,
+                stability=stability
+            )
+        finally:
+            self.manifold = previous
     
     def _calculate_organic_connections(
         self,
